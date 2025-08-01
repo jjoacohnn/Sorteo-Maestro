@@ -3,6 +3,10 @@ const ctx = canvas.getContext("2d");
 const sortearBtn = document.getElementById("sortear");
 const textarea = document.getElementById("nombres");
 const resultado = document.getElementById("resultado");
+const ganadorOverlay = document.getElementById("ganador-overlay");
+const nombreGanador = document.getElementById("nombre-ganador");
+const cerrarOverlay = document.getElementById("cerrar-overlay");
+const musica = document.getElementById("musica");
 
 const COLORES_RULETA = [
   "#FF6B6B", "#48DBFB", "#FFD166", "#06D6A0",
@@ -18,6 +22,7 @@ let ganadorIndex = -1;
 function init() {
   textarea.addEventListener("input", actualizarNombres);
   sortearBtn.addEventListener("click", girarRuleta);
+  cerrarOverlay.addEventListener("click", cerrarOverlayGanador);
   actualizarNombres();
 }
 
@@ -42,7 +47,6 @@ function dibujarRuleta() {
   ctx.clearRect(0, 0, tamano, tamano);
   
   if (nombres.length === 0) {
-
     ctx.beginPath();
     ctx.arc(centro, centro, radio, 0, Math.PI * 2);
     ctx.fillStyle = "#f8f9fa";
@@ -64,12 +68,13 @@ function dibujarRuleta() {
   nombres.forEach((nombre, index) => {
     const anguloInicio = index * anguloPorSegmento;
     const anguloFin = anguloInicio + anguloPorSegmento;
+    const color = COLORES_RULETA[index % COLORES_RULETA.length];
     
     ctx.beginPath();
     ctx.moveTo(centro, centro);
     ctx.arc(centro, centro, radio, anguloInicio, anguloFin);
     ctx.closePath();
-    ctx.fillStyle = COLORES_RULETA[index % COLORES_RULETA.length];
+    ctx.fillStyle = color;
     ctx.strokeStyle = "#fff";
     ctx.lineWidth = 2;
     ctx.fill();
@@ -97,11 +102,16 @@ function dibujarRuleta() {
 
 function girarRuleta() {
   if (girando || nombres.length < 2) {
-    if (nombres.length < 2) alert("Necesitas al menos 2 nombres");
+    if (nombres.length < 2) {
+      alert("¡Necesitas al menos 2 nombres para girar la ruleta!");
+    }
     return;
   }
   
   girando = true;
+  musica.currentTime = 0;
+  musica.play();
+
   ganadorIndex = Math.floor(Math.random() * nombres.length);
   
   const segmentos = nombres.length;
@@ -110,7 +120,7 @@ function girarRuleta() {
   
   const vueltas = 5;
   const totalGrados = (vueltas * 360) + anguloObjetivo;
-  
+
   const inicio = performance.now();
   const duracion = 4000;
   
@@ -125,14 +135,26 @@ function girarRuleta() {
     if (progreso < 1) {
       requestAnimationFrame(animar);
     } else {
-      girando = false;
       setTimeout(() => {
-        resultado.textContent = `¡Ganador: ${nombres[ganadorIndex]}!`;
+        mostrarGanador();
+        girando = false;
       }, 500);
     }
   }
   
   requestAnimationFrame(animar);
+}
+
+function mostrarGanador() {
+  nombreGanador.textContent = nombres[ganadorIndex];
+  ganadorOverlay.classList.add("mostrar");
+  musica.play();
+}
+
+function cerrarOverlayGanador() {
+  ganadorOverlay.classList.remove("mostrar");
+  musica.pause();
+  canvas.style.transform = `rotate(${rotacionActual % 360}deg)`;
 }
 
 document.addEventListener("DOMContentLoaded", init);
