@@ -1,0 +1,403 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  background: linear-gradient(135deg, #f0f7f9 0%, #e0f2f7 50%, #d5eff7 100%);
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+body.ocultar-contenido .container {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50px);
+}
+
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  max-width: 700px;
+  margin: 30px auto;
+  position: relative;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+h1 {
+    font-size: 2.8em;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    letter-spacing: -0.5px;
+}
+
+p {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+
+textarea {
+  width: 100%;
+  height: 120px;
+  font-size: 17px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #b0c4de;
+  resize: vertical;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+button {
+  font-size: 19px;
+  padding: 14px 30px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#resultado {
+  margin-top: 25px;
+  font-size: 26px;
+  color: #28a745;
+  font-weight: bold;
+  animation: zoomIn 0.6s ease;
+}
+
+.ruleta-container {
+  position: relative;
+  margin: 40px auto;
+  width: 400px;
+  height: 400px;
+}
+
+#ruleta {
+  border: 8px solid #333;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+
+#flecha {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 30px solid #dc3545;
+  border-bottom: none;
+  z-index: 10;
+}
+
+.marca-agua {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-size: 15px;
+  color: #007bff;
+  opacity: 0.5;
+  user-select: none;
+  pointer-events: none;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.opciones {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.opciones.mostrar {
+  opacity: 1;
+  display: flex;
+}
+
+.opciones button {
+  font-size: 18px;
+  padding: 12px 25px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.opciones button:hover {
+  background-color: #e9ecef;
+  transform: translateY(-1px);
+}
+
+.opciones button:active {
+    transform: translateY(0);
+}
+
+/* Estilos para el Overlay del Ganador */
+.ganador-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Múltiples fondos apilados */
+    background:
+        /* Confeti animado (Capa 3: pequeños círculos) */
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.4) 1px, transparent 2px),
+        radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.5) 1.5px, transparent 2.5px),
+        radial-gradient(circle at 40% 50%, rgba(255, 165, 0, 0.3) 1px, transparent 1.8px),
+
+        /* Estrellas luminosas animadas (Capa 2) */
+        radial-gradient(circle at 25% 60%, rgba(255, 255, 255, 0.4) 3px, transparent 5px), /* Brillo reducido */
+        radial-gradient(circle at 85% 30%, rgba(255, 255, 150, 0.3) 2.5px, transparent 4.5px), /* Brillo reducido */
+        radial-gradient(circle at 55% 10%, rgba(255, 255, 200, 0.5) 4px, transparent 6px), /* Brillo reducido */
+
+        /* Rayos de luz (Capa 1) - Sin animación de rotación */
+        linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+        
+        /* Fondo degradado base (Capa 0) */
+        linear-gradient(135deg, #a7e9af 0%, #7ec6ab 50%, #4a9e88 100%);
+    
+    /* Tamaños y posiciones iniciales para cada capa de fondo */
+    background-size: 
+        25px 25px, 25px 25px, 25px 25px, /* Tamaños de confeti */
+        40px 40px, 40px 40px, 40px 40px, /* Tamaños de estrellas */
+        60% 60%, 60% 60%, /* Tamaños de rayos */
+        100% 100%; /* Tamaño del degradado base */
+
+    background-position: 
+        0 0, 0 0, 0 0, /* Posiciones iniciales de confeti */
+        0 0, 0 0, 0 0, /* Posiciones iniciales de estrellas */
+        center center, center center; /* Posiciones iniciales de rayos (estáticos) */
+    
+    /* Animaciones */
+    animation: 
+        caerConfeti 10s linear infinite,
+        brillarEstrellas 3s ease-in-out infinite alternate; /* Eliminada animarRayos */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.ganador-overlay.mostrar {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ganador-contenido {
+    text-align: center;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.7s ease;
+}
+
+.ganador-overlay.mostrar .ganador-contenido {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.ganador-subtitulo {
+    font-size: 2.2em;
+    color: #4CAF50;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+#nombre-ganador-overlay {
+    font-size: 5em;
+    font-weight: bold;
+    color: #002D62;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.emojis {
+    font-size: 3em;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    animation: bounceEmojis 2s infinite ease-in-out;
+}
+
+.emojis span {
+    display: inline-block;
+}
+
+.emojis span:nth-child(2) { animation-delay: 0.1s; }
+.emojis span:nth-child(3) { animation-delay: 0.2s; }
+.emojis span:nth-child(4) { animation-delay: 0.3s; }
+.emojis span:nth-child(5) { animation-delay: 0.4s; }
+
+
+.volver-sortear-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.5em;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.volver-sortear-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-3px);
+}
+
+/* Animaciones */
+@keyframes zoomIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounceEmojis {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes caerConfeti {
+    from { background-position-y: 0, 0, 0; }
+    to { background-position-y: 100%, 100%, 100%; }
+}
+
+@keyframes brillarEstrellas {
+    from { filter: brightness(1); opacity: 0.8; } /* Brillo inicial reducido */
+    to { filter: brightness(1.2); opacity: 0.5; } /* Brillo final más sutil */
+}
+
+/* Eliminada la animación @keyframes animarRayos ya que no quieres que giren */
+/* @keyframes animarRayos {
+    from { background-position: center center; transform: rotate(0deg); }
+    to { background-position: center center; transform: rotate(360deg); }
+} */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 25px;
+        margin: 20px auto;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    textarea {
+        height: 80px;
+        font-size: 15px;
+    }
+    button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    #resultado {
+        font-size: 20px;
+    }
+    .ruleta-container {
+        width: 300px;
+        height: 300px;
+        margin: 25px auto;
+    }
+    #ruleta {
+        border-width: 6px;
+    }
+    .ganador-contenido {
+        padding: 30px;
+    }
+    .ganador-subtitulo {
+        font-size: 1.8em;
+    }
+    #nombre-ganador-overlay {
+        font-size: 3.5em;
+    }
+    .emojis {
+        font-size: 2.5em;
+        gap: 15px;
+    }
+    .volver-sortear-btn {
+        font-size: 1.2em;
+        padding: 12px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px 20px;
+        margin: 15px auto;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .opciones {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .ruleta-container {
+        width: 250px;
+        height: 250px;
+    }
+    #ruleta {
+        border-width: 4px;
+    }
+    .ganador-contenido {
+        padding: 20px;
+    }
+    .ganador-subtitulo {
+        font-size: 1.5em;
+    }
+    #nombre-ganador-overlay {
+        font-size: 2.8em;
+    }
+    .emojis {
+        font-size: 2em;
+        gap: 10px;
+    }
+    .volver-sortear-btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}

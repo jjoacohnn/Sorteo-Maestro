@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elige al Afortunado</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>✨ ¿Quién será el Afortunado? ✨</h1>
+    <p>Escribe los nombres separados por coma o por línea:</p>
+    <textarea id="nombres" placeholder="Ej: María, José, Luis, Sofía..."></textarea> 
+    <button id="sortear">🎰 Girar la ruleta</button>
+    <p id="resultado"></p>
+
+    <div class="ruleta-container">
+      <div id="flecha"></div>
+      <canvas id="ruleta" width="400" height="400"></canvas>
+    </div>
+
+    <div id="opcionesGanador" class="opciones" style="display: none;">
+      <button id="dejarGanador">✅ Mantener en la lista</button>
+      <button id="eliminarGanador">❌ Quitar de la ruleta</button>
+    </div>
+  </div>
+
+  <div id="ganador-final-overlay" class="ganador-overlay">
+    <div class="ganador-contenido">
+      <p class="ganador-subtitulo">¡Y el afortunado es...</p>
+      <h2 id="nombre-ganador-overlay"></h2>
+      <div class="emojis">
+        <span>🏆</span>
+        <span>🎉</span>
+        <span>✨</span>
+        <span>👑</span>
+        <span>🎁</span>
+      </div>
+      <button id="volver-sortear-overlay" class="volver-sortear-btn">🔄 Volver a Sortear</button>
+    </div>
+  </div>
+
+  <audio id="musica" src="musica.mp3" preload="auto" loop></audio>
+
+  <div class="marca-agua">VILLA</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
