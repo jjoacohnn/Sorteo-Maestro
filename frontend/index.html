@@ -1,48 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Elige al Afortunado</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruleta de Sorteo</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f7f9 0%, #e0f2f7 50%, #d5eff7 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .ruleta-container {
+      position: relative;
+      margin: 30px auto;
+      width: 400px;
+      height: 400px;
+      background: transparent;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    #ruleta {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      image-rendering: crisp-edges;
+    }
+
+    #flecha {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid #dc3545;
+      z-index: 10;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #4a9e88;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #4a9e88;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background-color: #3d8b76;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>✨ ¿Quién será el Afortunado? ✨</h1>
-    <p>Escribe los nombres separados por coma o por línea:</p>
-    <textarea id="nombres" placeholder="Ej: María, José, Luis, Sofía..."></textarea> 
-    <button id="sortear">🎰 Girar la ruleta</button>
+    <h1>¿Quién será el Afortunado?</h1>
+    <p>Escribe los nombres separados por comas o líneas:</p>
+    <textarea id="nombres" placeholder="Ej: Juan, María, Carlos" rows="4"></textarea>
+    <button id="sortear">Girar la ruleta</button>
     <p id="resultado"></p>
 
     <div class="ruleta-container">
       <div id="flecha"></div>
       <canvas id="ruleta" width="400" height="400"></canvas>
     </div>
-
-    <div id="opcionesGanador" class="opciones" style="display: none;">
-      <button id="dejarGanador">✅ Mantener en la lista</button>
-      <button id="eliminarGanador">❌ Quitar de la ruleta</button>
-    </div>
   </div>
-
-  <div id="ganador-final-overlay" class="ganador-overlay">
-    <div class="ganador-contenido">
-      <p class="ganador-subtitulo">¡Y el afortunado es...</p>
-      <h2 id="nombre-ganador-overlay"></h2>
-      <div class="emojis">
-        <span>🏆</span>
-        <span>🎉</span>
-        <span>✨</span>
-        <span>👑</span>
-        <span>🎁</span>
-      </div>
-      <button id="volver-sortear-overlay" class="volver-sortear-btn">🔄 Volver a Sortear</button>
-    </div>
-  </div>
-
-  <audio id="musica" src="musica.mp3" preload="auto" loop></audio>
-
-  <div class="marca-agua">VILLA</div>
 
   <script src="script.js"></script>
 </body>
