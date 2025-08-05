@@ -30,12 +30,10 @@ function actualizarNombres() {
   const texto = textarea.value.trim();
   nombres = texto.split(/[\n,]+/).map(n => n.trim()).filter(n => n !== "");
   
-  if (nombres.length === 0) {
-    resultado.textContent = "Agrega nombres para comenzar";
-  } else {
-    resultado.textContent = `${nombres.length} nombres en la ruleta`;
-  }
-  
+  resultado.textContent = nombres.length === 0
+    ? "Agrega nombres para comenzar"
+    : `${nombres.length} nombres en la ruleta`;
+    
   dibujarRuleta();
 }
 
@@ -50,11 +48,10 @@ function dibujarRuleta() {
     ctx.beginPath();
     ctx.arc(centro, centro, radio, 0, Math.PI * 2);
     ctx.fillStyle = "#f8f9fa";
+    ctx.fill();
     ctx.strokeStyle = "#4a9e88";
     ctx.lineWidth = 3;
-    ctx.fill();
     ctx.stroke();
-    
     ctx.fillStyle = "#4a9e88";
     ctx.font = "bold 20px Arial";
     ctx.textAlign = "center";
@@ -87,24 +84,15 @@ function dibujarRuleta() {
     ctx.font = "bold 14px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    
     const texto = nombre.length > 12 ? nombre.substring(0, 10) + "..." : nombre;
     ctx.fillText(texto, radio * 0.65, 0);
     ctx.restore();
   });
-  
-  ctx.beginPath();
-  ctx.arc(centro, centro, radio, 0, Math.PI * 2);
-  ctx.strokeStyle = "#fff";
-  ctx.lineWidth = 4;
-  ctx.stroke();
 }
 
 function girarRuleta() {
   if (girando || nombres.length < 2) {
-    if (nombres.length < 2) {
-      alert("¡Necesitas al menos 2 nombres para girar la ruleta!");
-    }
+    if (nombres.length < 2) alert("¡Necesitas al menos 2 nombres!");
     return;
   }
   
@@ -113,7 +101,6 @@ function girarRuleta() {
   musica.play();
 
   ganadorIndex = Math.floor(Math.random() * nombres.length);
-  
   const segmentos = nombres.length;
   const anguloPorSegmento = 360 / segmentos;
   const anguloObjetivo = 270 - (ganadorIndex * anguloPorSegmento);
