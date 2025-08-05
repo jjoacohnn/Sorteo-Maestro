@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,21 +19,21 @@
   </div>
 
   <div class="container">
-    <h1>¿Quién será el Afortunado?</h1>
-    <p>Escribe los nombres separados por coma o por línea:</p>
+    <h1>🎯 ¿Quién será el Afortunado? 🎲</h1>
+    <p>✍️ Escribe los nombres separados por coma o por línea:</p>
     <textarea id="nombres" placeholder="Ej: Martin, Matias, Felipe..." rows="4"></textarea>
-    <button id="sortear" class="btn-primario">Girar la ruleta</button>
+    <button id="sortear" class="btn-primario">🎡 Girar la ruleta</button>
     <p id="resultado"></p>
 
     <div class="ruleta-container">
-      <div id="flecha"></div>
       <canvas id="ruleta" width="400" height="400"></canvas>
+      <div id="flecha">🔻</div>
     </div>
 
     <div id="ganador-overlay" class="ganador-overlay">
       <div class="ganador-contenedor">
         <div class="ganador-cuadro">
-          <p class="ganador-texto">El afortunado es...</p>
+          <p class="ganador-texto">🎉 El afortunado es...</p>
           <h2 id="nombre-ganador" class="nombre-ganador"></h2>
           <div class="emojis-animados">
             <span>🎉</span>
@@ -55,7 +56,7 @@
   </div>
 
   <audio id="musica" src="musica.mp3" preload="auto"></audio>
-  <div class="marca-agua">JJOACO.HNN</div>
+  <div class="marca-agua">✨ JJOACO.HNN ✨</div>
 
   <script src="script.js"></script>
   <script>
